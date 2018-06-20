@@ -33,7 +33,7 @@ O objetivo desta árvore é estruturar os dados de forma a permitir busca, inser
 - [:x:]  remove - ***O(log n)*** - :construction: ( _Imcompleto_ )  
 	Remove a chave dada na árvore se já existir previamente, reotornando true/verdadeiro, caso contrário - ou seja, a chave não existe na árvore - retorna false/falso.
 
-## Requisitos mínimos
+## :page_facing_up: Requisitos mínimos
 
 Compilador C++ 11 (**g++**), GNU debugger (**GDB**) e Doxygen.
 	
@@ -69,4 +69,4 @@ Além disso, caso deseje fazer o debugger do programa, primeiro digite no termin
 
 ## Autores :smile: 
 
-Samuel Lucas de Moura Ferino ( :email:  <samuel1797@gmail.com> )
+Samuel Lucas de Moura Ferino ( :e-mail:  <samuel1797@gmail.com> )
