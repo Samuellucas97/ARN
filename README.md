@@ -32,7 +32,6 @@ O objetivo desta árvore é estruturar os dados de forma a permitir busca, inser
 	Insere a chave dada na árvore se não já existir previamente, retornando true/verdadeiro, caso contrário - ou seja, a chave já existe - retorna false/falso.
 - [:x:]  remove - ***O(log n)*** - :construction: ( _Imcompleto_ )  
 	Remove a chave dada na árvore se já existir previamente, reotornando true/verdadeiro, caso contrário - ou seja, a chave não existe na árvore - retorna false/falso.
-[Wikipedia]: https://pt.wikipedia.org/wiki/%C3%81rvore_rubro-negra
 
 ## Requisitos mínimos
 
