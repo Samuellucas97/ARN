@@ -19,7 +19,9 @@ Além dos requisitos ordinários impostos pelas árvores de busca binárias, as 
 </p>
 
   
-O objetivo desta árvore é estruturar os dados de forma a permitir busca, inserção e remoção sejam feita em `O(log n)`.  [Wikipedia]  
+O objetivo desta árvore é estruturar os dados de forma a permitir busca, inserção e remoção sejam feita em `O(log n)`. [Wikipedia]
+
+[Wikipedia]:https://pt.wikipedia.org/wiki/%C3%81rvore_rubro-negra
   
 
 :hammer: **FUNCIONALIDADES IMPLEMENTADAS**  
