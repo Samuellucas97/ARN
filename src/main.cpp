@@ -28,7 +28,7 @@ int main(){
 	tree.insert(15);
 	tree.insert(17);
 	tree.insert(2);
-	tree.deleta(15);
+	//tree.deleta(15);
 	tree.levelTravel();
 
 	//tree.remove(2);

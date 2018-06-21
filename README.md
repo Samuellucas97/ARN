@@ -28,7 +28,7 @@ O objetivo desta árvore é estruturar os dados de forma a permitir busca, inser
 
 - [:heavy_check_mark:]  search - ***O(log n)***  
 	Busca a chave dada na árvore e se exitir retorna true/verdadeiro senão false/falso.
-- [:x:]  insert - ***O(log n)*** - :construction: ( _Imcompleto_ )  
+- [:heavy_check_mark:]  insert - ***O(log n)***   
 	Insere a chave dada na árvore se não já existir previamente, retornando true/verdadeiro, caso contrário - ou seja, a chave já existe - retorna false/falso.
 - [:x:]  remove - ***O(log n)*** - :construction: ( _Imcompleto_ )  
 	Remove a chave dada na árvore se já existir previamente, reotornando true/verdadeiro, caso contrário - ou seja, a chave não existe na árvore - retorna false/falso.

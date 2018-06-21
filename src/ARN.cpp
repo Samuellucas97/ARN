@@ -33,6 +33,7 @@ ARN::ARN(){
  * @brief	Destrutor padrão 
  */	
 ARN::~ARN(){
+
 	if(quantidadeDeElementos > 0){
 		destroyTheTree(this->raiz);
 		cout << endl << "Árvore sendo destruída... " << endl;
@@ -264,10 +265,12 @@ ARN::deleta( int value){
 	      		\brief 	Guarda a posição do nó na ABB correspondente à chave, se existir
 	     */	
 	    Node* nodeAlvo = this->raiz;
+	    
 	    /*!	\var	bool flag 
-	      		\brief 	Variavel alxiliar, guarda true caso o No alvo seja RUBRO e guarda false caso contrario
+	      		\brief 	Variavel auxiliar que guarda true caso o No alvo seja RUBRO e guarda false caso contrario
 	     */	
 	    bool flag = true;
+  	    
   	    /// BUSCANDO SE O NÓ EXISTE
   	    while( nodeAlvo != this->externo &&  value !=  nodeAlvo->chave ){	
 
@@ -279,12 +282,14 @@ ARN::deleta( int value){
   	        	nodeAlvo =  nodeAlvo->direita; 
   	      	}
   	    } 
-  	    if(nodeAlvo->cor == RUBRO){
-  	    	flag = false;
-  	    }
+  	    
   	    if( nodeAlvo == this->externo ){ 	/// O NÓ CORRESPONDENTE A CHAVE NÃO FOI ENCONTRADO NA ÁRVORE
   	    	return false;
   		}
+  	    
+  	    if(nodeAlvo->cor == RUBRO){  /// CASO EM QUE O NÓ REMOVIDO (nodeAlvo) É RUBRO. PORTANTO, A CONTAGEM DE NÓS NEGROS NÃO É ALTERADA  
+  	    	flag = false;
+  	    }
 
 		if( nodeAlvo-> esquerda == this->externo){  /// O NÓ nodeAlvo A SER REMOVIDO **NÃO TEM** FILHO À ESQUERDA
 			transplant(nodeAlvo, nodeAlvo->direita );
@@ -318,7 +323,8 @@ ARN::deleta( int value){
     }
    	
    	/// TENTATIVA DE REMOÇÂO EM ÁRVORE VAZIA
-    return false;}
+    return false;
+}
 
 /**
  * @brief   Remove da árvore o nó com a respectiva chave, se existir
