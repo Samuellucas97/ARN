@@ -108,7 +108,20 @@ class ARN{
 	/**    /\/\/\/\/\/\      MÉTODOS PRIVADOS    /\/\/\/\/\/\      */
 	  
 	private:
-	
+
+		/**
+		 * @brief   Identifica o local onde deve ser colocado o novo nó na árvore e adiciona-o
+		 * @param   z   Novo nó
+		 * @return  \code{.cpp}true\endcode caso tenha sido adiciona, \code{.cpp}false\endcode caso contrário
+		 */ 
+		void insertNode(Node* z);
+		
+		/**
+		 * @brief   Identifica o local onde do nó na árvore a ser removido e se existir, remove-o
+		 * @param   z   Nó a ser removido
+		 * @return  \code{.cpp}true\endcode caso tenha sido removido, \code{.cpp}false\endcode caso contrário
+		 */ 
+		void removeNode( Node* z );
 		/**
 	   	 * @brief   Busca o extremo nó à esquerda de qualquer nó
 	   	 * @param   x   Nó usado como ponto de partida

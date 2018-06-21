@@ -26,6 +26,7 @@ using std::queue;
 ARN::ARN(){
 	this->externo = new Node();
 	this->externo->cor = NEGRO;			
+	this->raiz = this->externo;
 	this->quantidadeDeElementos = 0;
 }
 
@@ -171,75 +172,75 @@ ARN::search(int key){
 
 }  
 
+
 /**
  * @brief   Cria um novo nó com o conteúdo entrado, identifica o local 
  *          onde ele deve ser colocado na árvore e adiciona-o se não existe
  *			previamente
  * @param   value   Conteúdo do novo nó
  * @return 	True se for adicionado senão false
- */ 
+ */
 bool 
 ARN::insert(int value){
-    
-    /*!	\var	Node * copyRoot 
-			\brief	 Copia do nó raiz que será usado no momento de percorrer em ordem a árvore	 
-	 */
-    Node * copyRoot = this->raiz;
-    
-    if( this->quantidadeDeElementos > 0){
 
+	if( search(value) == false ){
+		insertNode( new Node(value) );
 
-  	    /*!	\var	Node * nodeSearch 
-				\brief	 Nó anterior ao local em que será adicionado o novo nó	 
-		 */
-	    Node * nodeSearch = nullptr;
-  	    
-  	    /// BUSCANDO SE O NÓ JÁ EXISTE
-  	    while( copyRoot != this->externo){
-  	      
-  	    	nodeSearch = copyRoot;
-  	      	
-  	      	if( value == copyRoot->chave ){ /// Value IGUAL A CHAVE DO PONTEIRO ATUAL
-  	        	return false;
-  	      	}
-  		    else if( value < copyRoot->chave ){ /// Value MENOR QUE CHAVE DO PONTEIRO ATUAL
-  	        	copyRoot = copyRoot->esquerda;
-  	    	}
-  	    	
-  	      	else{ /// Value MAIOR QUE CHAVE DO PONTEIRO ATUAL
-  	        	copyRoot = copyRoot->direita; 
-  	      	}
-  	    }   
-  	      
-  	    /// CRIANDO NOVO NÓ 
-  	    Node * newNode = new Node(value, nodeSearch, this->externo, this->externo, RUBRO);
-  	    
-  	    /// ADICIONANDO O NÓ
-        if( value < nodeSearch->chave ){   /// TORNANDO newNode O FILHO ESQUERDO DE nodeSearch
-          	
-          	nodeSearch-> esquerda = newNode;  	  	   	   	
-	  	   	++(this->quantidadeDeElementos);   /// INCREMENTANDO NA QUANTIDADE TOTAL DE NÓS DA ÁRVORE
+		return true;
+	}	
 
-        }	 
-  	    else{
+	return false;
+} 
+
+/**
+ * @brief   Identifica o local onde o novo nó deve ser colocado na árvore e adiciona-o se não existe
+ *			previamente
+ * @param   z   Nó a ser adicionado
+ * @return 	True se for adicionado senão false
+ */ 
+void 
+ARN::insertNode(Node* z){
+
+    Node* x = this->raiz; 
+
+    /*!	\var	Node * nodeSearch 
+			\brief	 Nó anterior ao local em que será adicionado o novo nó	 
+	 	 */
+		Node* y = this->externo;
 	  	    
-	  	    nodeSearch-> direita = newNode;    /// TORNANDO newNode O FILHO DIREITO DE nodeSearch
-	  	   	++(this->quantidadeDeElementos);   /// INCREMENTANDO NA QUANTIDADE TOTAL DE NÓS DA ÁRVORE
-  	   
-  	    }  
+	    /// BUSCANDO SE O NÓ JÁ EXISTE
+	    while( x != this->externo){
+	      
+	    	y = x;
+	      	
+		  	if( z->chave < x->chave ){ /// Value MENOR QUE CHAVE DO PONTEIRO ATUAL
+	        	x = x->esquerda;
+	    	}
+	      	else{ /// Value MAIOR QUE CHAVE DO PONTEIRO ATUAL
+	        	x = x->direita; 
+	      	}
+	    }   
+	    	
+	    z->p = y;	
 
-  	    fixUpOfColorsInsert(newNode);
+	    if( y == this->externo ){
+	    	this->raiz = z ;
+	    }
+	    else if( z->chave < y->chave ){
+	    	y->esquerda = z;
+	    }
+	    else{
+	    	y->direita = z;
+	    }
 
-  	    return true;
-    }
-     
-    /// PRIMEIRA INSERÇÃO NA ÁRVORE   
-  	this->raiz = new Node(value, this->externo, this->externo, this->externo, RUBRO);
-  	fixUpOfColorsInsert(this->raiz);
-	++(this->quantidadeDeElementos);   /// INCREMENTANDO NA QUANTIDADE TOTAL DE NÓS DA ÁRVORE
-	return true;
+	    z->esquerda = this->externo;
+	    z->direita = this->externo;
+	    z->cor = RUBRO;
 
+		fixUpOfColorsInsert(z);    
+		
 }
+
 
 /**
  * @brief   Busca o extremo nó à esquerda de qualquer nó
@@ -335,60 +336,71 @@ ARN::deleta( int value){
 bool 
 ARN::remove( int value ){	
 
-    if( this->quantidadeDeElementos > 0){
-			 	    	
-        /*!	\var	Node* nodeAlvo 
-	      		\brief 	Guarda a posição do nó na ABB correspondente à chave, se existir
-	     */	
-	    Node* nodeAlvo = this->raiz;
+    if(search(value) == true ){
+    	
+    	Node* noAuxiliar = this->raiz;
 
-  	    /// BUSCANDO SE O NÓ EXISTE
-  	    while( nodeAlvo != this->externo &&  value !=  nodeAlvo->chave ){	
+    	while( noAuxiliar->chave != value ){
 
-  		    if( value <  nodeAlvo->chave ){ /// Value MENOR QUE CHAVE DO PONTEIRO ATUAL
-  	        	nodeAlvo = nodeAlvo->esquerda;
-  	    	}
-  	    	
-  	      	else{ /// Value MAIOR QUE CHAVE DO PONTEIRO ATUAL
-  	        	nodeAlvo =  nodeAlvo->direita; 
-  	      	}
-  	    } 
+    		if( value < noAuxiliar->chave ){
+    			noAuxiliar = noAuxiliar->esquerda;
+    		}
+    		else{
+    			noAuxiliar = noAuxiliar->direita;
+    		}
+    	}
 
-  	    if( nodeAlvo == this->externo ){ 	/// O NÓ CORRESPONDENTE A CHAVE NÃO FOI ENCONTRADO NA ÁRVORE
-  	    	return false;
-  		}
-
-		if( nodeAlvo-> esquerda == this->externo){  /// O NÓ nodeAlvo A SER REMOVIDO **NÃO TEM** FILHO À ESQUERDA
-			transplant(nodeAlvo, nodeAlvo->direita );
-		}
-		else if( nodeAlvo->direita == this->externo){  /// O NÓ nodeAlvo A SER REMOVIDO **NÃO TEM** FILHO À DIREITA
-			transplant(nodeAlvo, nodeAlvo->esquerda );
-		}
-		else{  /// O NÓ nodeAlvo A SER REMOVIDO **TEM** FILHO À ESQUERDA E À DIREITA
-
-			Node* menorMaiorNoh = mimimunOfAnyNode(nodeAlvo->direita ); /// PEGO O MENOR DOS FILHOS À DIREITA DE nodeAlvo PARA GARANTIR QUE SEJA MAIOR QUE TODOS OS DESCENTES À ESQUERDA DE nodeAlvo
-
-			if(menorMaiorNoh->p != nodeAlvo){
-				transplant(menorMaiorNoh, menorMaiorNoh->direita );
-				menorMaiorNoh->direita = nodeAlvo->direita ;
-				menorMaiorNoh-> p-> direita = menorMaiorNoh ;
-			}
-
-			transplant( nodeAlvo, menorMaiorNoh );
-			menorMaiorNoh->esquerda = nodeAlvo->esquerda ;
-			menorMaiorNoh->esquerda = menorMaiorNoh;
-		
-		}
-
-  	   	--(this->quantidadeDeElementos);   /// DECREMENTANDO NA QUANTIDADE TOTAL DE NÓS DA ÁRVORE
-
-  	   	return true;
+    	removeNode( noAuxiliar );
+    
+    	return true;
     }
    	
-   	/// TENTATIVA DE REMOÇÂO EM ÁRVORE VAZIA
-    return false;
+   	return false;
 	
 }  
+
+/**
+ * @brief   Identifica o local onde do nó na árvore a ser removido e se existir, remove-o
+ * @param   z   Nó a ser removido
+ * @return  \code{.cpp}true\endcode caso tenha sido removido, \code{.cpp}false\endcode caso contrário
+ */ 
+void 
+ARN::removeNode( Node* z ){
+
+	Node* y = this->externo;
+	Node* x = this->externo;
+
+	if( z->esquerda == this->externo || z->direita == this->externo){
+		y = z;
+	}
+	else{
+		y = sucessor(z);
+	}
+
+	if( y->esquerda != this->externo ){
+		x = y->esquerda;
+	}
+	else{
+		x = y->direita;
+	}
+
+	x->p = y->p;
+
+	if( y->p == this->externo ){
+		this->raiz = x;
+	}
+	else if( y == y->p->esquerda ){
+		y->p->esquerda = x;
+	}
+	else{
+		y->p->direita = x;
+	}
+
+	if( y != z ){
+		z->chave = y->chave;
+	}
+
+}
 
 /**
  * @brief   Substitui uma subárvore como um filho de seu pai por outra subárvore
@@ -496,7 +508,7 @@ ARN::leftRotate(Node* x){
 	Node* y = x->direita;
 	x->direita = y->esquerda;	/// FAZ DA SUBÁRVORE ESQUERDA DE y A SUBÁRVORE DIREITA DE x
 	
-	if( x->direita != this->externo){    /// VERIFICANDO SE O FILHO DE x NÃO É UM NÓ EXTERNO
+	if( x->esquerda != this->externo){    /// VERIFICANDO SE O FILHO DE x NÃO É UM NÓ EXTERNO
 		y->esquerda->p = x;
 	}
 
@@ -528,7 +540,7 @@ ARN::rightRotate(Node* y){
 	Node* x = y->esquerda;
 	y->esquerda = x->direita;		/// FAZ DA SUBÁRVORE DIREITA DE x A SUBÁRVORE ESQUERDA DE y
 	
-	if( y->esquerda != this->externo ){    /// VERIFICANDO SE O FILHO DE x NÃO É NULO
+	if( x->direita != this->externo ){    /// VERIFICANDO SE O FILHO DE x NÃO É NULO
 		x->direita->p = y;
 	}
 
@@ -556,11 +568,11 @@ ARN::fixUpOfColorsInsert(Node* z){
 
 	while(z->p->cor == RUBRO){
 		
-		if(z->p == z->p->p->esquerda ){
+		if(z->p == z->p->p->esquerda ){ 
 			
 			Node* y = z->p->p->direita;
 			
-			if( y->cor == RUBRO){				////   	CASO 1°: O TIO DE Y DE Z É RUBRO
+			if( y->cor == RUBRO){				////   	CASO 1°: O TIO DIREITO Y DE Z É RUBRO
 			
 				z->p->cor = NEGRO;
 				y->cor = NEGRO;
@@ -578,7 +590,10 @@ ARN::fixUpOfColorsInsert(Node* z){
 				
 				z->p->cor = NEGRO;				/// 			CASO 3: O TIO y DE z É NEGRO E z É UM FILHO DA ESQUERDA	
 				z->p->p->cor = RUBRO;
+				//tree.levelTravel();
+
 				rightRotate(z->p->p);			///				TÉRMINA 3° CASO
+
 			}			
 		}
 
@@ -597,12 +612,12 @@ ARN::fixUpOfColorsInsert(Node* z){
 			 	
 			 	if(z == z->p->esquerda){		/// 		CASO 2: O TIO y DE z É NEGRO E z É UM FILHO DA DIREITA
 					z = z->p;
-					leftRotate(z);
+					rightRotate(z);
 				}								///     	TÉRMINA 2º CASO
 				
 				z->p->cor = NEGRO;				/// 			CASO 3: O TIO y DE z É NEGRO E z É UM FILHO DA ESQUERDA
 				z->p->p->cor = RUBRO;
-				rightRotate(z->p->p);			///				TÉRMINA 3° CASO
+				leftRotate(z->p->p);			///				TÉRMINA 3° CASO
 			}	
 
 		}
@@ -617,9 +632,7 @@ void
 ARN::fixUpOfColorsRemove(Node* n){
 
 	Node* x;
-	/*while (n != this->raiz && n->cor == NEGRO) {
 
-	}*/
 	while (n != this->raiz && n->cor == NEGRO) {
 		
 		if (n == n->p->esquerda) {
