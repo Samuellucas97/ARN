@@ -93,42 +93,44 @@ ARN::travellingRecursively(void){
  */
 void 
 ARN::levelTravel(){
-			
-	/*! \var queue<Node *> fila
-	 		\brief	Fila usada como meio para guardar cada elemento por ordem 
-	 */
-	queue<Node *> fila; 
-
-	/*!	\var Node * x
-			\brief	Nó auxiliar usado no momento de percorrer por nível a ABB
-	 */
-	Node * x = new Node ();	 	
 	
-	fila.push( this->raiz );			
+	if( this->raiz != nullptr ){		
+		/*! \var queue<Node *> fila
+		 		\brief	Fila usada como meio para guardar cada elemento por ordem 
+		 */
+		queue<Node *> fila; 
 
-	while( !fila.empty() ){
-
-		x = fila.front();
-		fila.pop();
+		/*!	\var Node * x
+				\brief	Nó auxiliar usado no momento de percorrer por nível a ABB
+		 */
+		Node * x = new Node ();	 	
 		
-		cout << x->chave << " (";
-		
-		if( x->cor == RUBRO){ 
-			cout << "RUBRO)" << endl;
-		}	
-		else{
-			cout << "NEGRO)" << endl;
-		}	 	
+		fila.push( this->raiz );			
 
-		if( x->esquerda != this->externo ){   /// HÁ NÓ FILHO À ESQUERDA
-			fila.push( x->esquerda );
+		while( !fila.empty() ){
+
+			x = fila.front();
+			fila.pop();
+			
+			cout << x->chave << " (";
+			
+			if( x->cor == RUBRO){ 
+				cout << "RUBRO)" << endl;
+			}	
+			else{
+				cout << "NEGRO)" << endl;
+			}	 	
+
+			if( x->esquerda != this->externo ){   /// HÁ NÓ FILHO À ESQUERDA
+				fila.push( x->esquerda );
+			}
+
+			if( x->direita != this->externo ){	/// HÁ NÓ FILHO À DIREITA
+				fila.push( x->direita );
+			}
+			
 		}
-
-		if( x->direita != this->externo ){	/// HÁ NÓ FILHO À DIREITA
-			fila.push( x->direita );
-		}
-		
-	}		
+	}			
 
 }
 
@@ -215,7 +217,7 @@ ARN::insert(int value){
   	    /// ADICIONANDO O NÓ
         if( value < nodeSearch->chave ){   /// TORNANDO newNode O FILHO ESQUERDO DE nodeSearch
           	
-          	nodeSearch-> esquerda =newNode;  	  	   	   	
+          	nodeSearch-> esquerda = newNode;  	  	   	   	
 	  	   	++(this->quantidadeDeElementos);   /// INCREMENTANDO NA QUANTIDADE TOTAL DE NÓS DA ÁRVORE
 
         }	 
@@ -491,27 +493,27 @@ ARN::posOrderTreeWalk(Node * x){
 void 
 ARN::leftRotate(Node* x){
 
+	Node* y = x->direita;
+	x->direita = y->esquerda;	/// FAZ DA SUBÁRVORE ESQUERDA DE y A SUBÁRVORE DIREITA DE x
+	
 	if( x->direita != this->externo){    /// VERIFICANDO SE O FILHO DE x NÃO É UM NÓ EXTERNO
-
-		Node* y = x->direita;
-		x->direita = y->esquerda;	/// FAZ DA SUBÁRVORE ESQUERDA DE y A SUBÁRVORE DIREITA DE x
 		y->esquerda->p = x;
-		y->p = x->p;				/// LIGA O PAI DE x A y
+	}
 
-		if(x->p == this->externo){  /// CASO EM QUE x É RAIZ
-			this->raiz = y;	
-		}
-		else if( x == x->p->esquerda ){  /// CASO EM QUE O x É O FILHO À ESQUERDA
-			x->p->esquerda = y;
-		}
-		else{  /// CASO EM QUE O x É O FILHO À DIREITA
-			x->p->direita = y;	
-		}
+	y->p = x->p;				/// LIGA O PAI DE x A y
 
-		y->esquerda = x;
-		x->p = y;
-		
-	}	
+	if(x->p == this->externo){  /// CASO EM QUE x É RAIZ
+		this->raiz = y;	
+	}
+	else if( x == x->p->esquerda ){  /// CASO EM QUE O x É O FILHO À ESQUERDA
+		x->p->esquerda = y;
+	}
+	else{  /// CASO EM QUE O x É O FILHO À DIREITA
+		x->p->direita = y;	
+	}
+
+	y->esquerda = x;
+	x->p = y;		
 
 }
 
@@ -522,27 +524,30 @@ ARN::leftRotate(Node* x){
 void 
 ARN::rightRotate(Node* y){
 
+	
+	Node* x = y->esquerda;
+	y->esquerda = x->direita;		/// FAZ DA SUBÁRVORE DIREITA DE x A SUBÁRVORE ESQUERDA DE y
+	
 	if( y->esquerda != this->externo ){    /// VERIFICANDO SE O FILHO DE x NÃO É NULO
-
-		Node* x = y->esquerda;
-		y->esquerda = x->direita;		/// FAZ DA SUBÁRVORE DIREITA DE x A SUBÁRVORE ESQUERDA DE y
 		x->direita->p = y;
-		x->p = y->p;					/// FAZ O PAI DE y SER O PAI DE x
+	}
 
-		if(y->p == this->externo){  /// CASO EM QUE y É RAIZ
-			this->raiz = x;	
-		}
-		else if( y == y->p->esquerda ){  /// CASO EM QUE O y É O FILHO À ESQUERDA
-			y->p->esquerda = x;
-		}
-		else{  /// CASO EM QUE O y É O FILHO À DIREITA
-			y->p->direita = x;	
-		}
+	x->p = y->p;					/// FAZ O PAI DE y SER O PAI DE x
 
-		x->direita = y;
-		y->p = x;
+	if(y->p == this->externo){  /// CASO EM QUE y É RAIZ
+		this->raiz = x;	
+	}
+	else if( y == y->p->direita ){  /// CASO EM QUE O y É O FILHO À ESQUERDA
+		y->p->direita = x;
+	}
+	else{  /// CASO EM QUE O y É O FILHO À DIREITA
+		y->p->esquerda = x;	
+	}
 
-	}	
+	x->direita = y;
+	y->p = x;
+
+		
 
 }
 
