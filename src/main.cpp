@@ -3,7 +3,7 @@
  * @brief	Contém a função main com a manipulação de arquivos
  * @author 	Samuel Lucas de Moura Ferino
  * @author 	Emanoel Dantas Pereira
- * @author		Madson Rodrigues Liborio
+ * @author	Madson Rodrigues Liborio
  */
 #include "ARN.h"
 
@@ -25,13 +25,13 @@ int main(){
 	tree.insert(19);
 	tree.insert(18);
 	tree.insert(16);
-	//tree.insert(15);
-	//tree.insert(17);
-	//tree.insert(2);
-	tree.remove(19);
+	tree.insert(15);
+	tree.insert(17);
+	tree.insert(2);
+	
+	
+	//tree.remove(16);
 	tree.levelTravel();
-
-	//tree.remove(2);
 	tree.travellingRecursively();
 
 	if( tree.search(2) == true ){

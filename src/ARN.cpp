@@ -1,10 +1,9 @@
 /**
  * @file		ARN.h 
- * @brief     	Contém a classe ARN que representa uma árvore rubro-negra
+ * @brief     	Contém a implementação dos métodos da classe ARN que representa uma árvore rubro-negra
  * @author 		Samuel Lucas de Moura Ferino
- * @author		Madson Rodrigues Liborio
  * @since		12.06.2018
- * @version		0.0.3
+ * @version		0.0.6
 */
 
 
@@ -21,7 +20,7 @@ using std::endl;
 using std::queue;
 
 /**
- * @brief Construtor padrão
+ * @brief Iniciamos apenas com o nó externo (Construtor padrão)
  */	
 ARN::ARN(){
 	this->externo = new Node();
@@ -37,7 +36,7 @@ ARN::~ARN(){
 
 	if(quantidadeDeElementos > 0){
 		destroyTheTree(this->raiz);
-		cout << endl << "Árvore sendo destruída... " << endl;
+		cout << endl << "Árvore sendo destruída... (LINHA 39)" << endl;
 	}
 
 
@@ -51,6 +50,7 @@ void
 ARN::travellingRecursively(void){
 
 	if(this->quantidadeDeElementos > 0){
+		
 		/// PRE-ORDEM
 
 		/*!	\var	Node * copyRootPre 
@@ -95,7 +95,7 @@ ARN::travellingRecursively(void){
 void 
 ARN::levelTravel(){
 	
-	if( this->raiz != nullptr ){		
+	if( this->raiz != this->externo ){		
 		/*! \var queue<Node *> fila
 		 		\brief	Fila usada como meio para guardar cada elemento por ordem 
 		 */
@@ -104,9 +104,9 @@ ARN::levelTravel(){
 		/*!	\var Node * x
 				\brief	Nó auxiliar usado no momento de percorrer por nível a ABB
 		 */
-		Node * x = new Node ();	 	
+		Node * x = this->raiz;	 	
 		
-		fila.push( this->raiz );			
+		fila.push( x );			
 
 		while( !fila.empty() ){
 
@@ -131,6 +131,7 @@ ARN::levelTravel(){
 			}
 			
 		}
+
 	}			
 
 }
@@ -185,7 +186,7 @@ ARN::insert(int value){
 
 	if( search(value) == false ){
 		insertNode( new Node(value) );
-
+		++this->quantidadeDeElementos;
 		return true;
 	}	
 
@@ -313,15 +314,16 @@ ARN::deleta( int value){
 			transplant( nodeAlvo, menorMaiorNoh );
 			menorMaiorNoh->esquerda = nodeAlvo->esquerda ;
 			menorMaiorNoh->esquerda = menorMaiorNoh;
+
+		cout <<  "LINHA 319 - " << menorMaiorNoh->chave << endl;	
+		exit(0);
 		
 		}
+  	   	if(flag == true){
+			fixUpOfColorsRemove(nodeAlvo);  	   	
+	   	}
 
   	   	--(this->quantidadeDeElementos);   /// DECREMENTANDO NA QUANTIDADE TOTAL DE NÓS DA ÁRVORE	
-  	   	if(flag){
-  	   		return true;
-  	   	}
-		fixUpOfColorsRemove(nodeAlvo);  	   	
-
   	   	return true;
     }
    	
@@ -336,27 +338,36 @@ ARN::deleta( int value){
 bool 
 ARN::remove( int value ){	
 
-    if(search(value) == true ){
-    	
-    	Node* noAuxiliar = this->raiz;
-
-    	while( noAuxiliar->chave != value ){
-
-    		if( value < noAuxiliar->chave ){
-    			noAuxiliar = noAuxiliar->esquerda;
-    		}
-    		else{
-    			noAuxiliar = noAuxiliar->direita;
-    		}
-    	}
-
-    	removeNode( noAuxiliar );
+	/*!	\var Node* noAlvo
+	 		\brief Guardará o nó que será removido da árvore Rubro-negra
+	 */		
+    Node* noAlvo = this->raiz;
     
-    	return true;
-    }
-   	
-   	return false;
-	
+    /*!	\var Node* noAuxiliar
+	 		\brief Guardará o nó que a partir do qual haverá o recolorimento. Por questões de estética, será inicializado com nodeAlvo
+	 */		
+    Node* noAuxiliar = noAlvo;
+    
+	while( noAlvo->chave != value  && noAlvo != this->externo){  /// BUSCANDO O NÓ
+
+		if( value < noAlvo->chave ){ /// O VALOR BUSCADO É MENOR QUE A CHAVE DO NÓ ATUAL POR ISSO DEVE-SE REALIZAR A BUSCA NA SUB-ÁRVORE ESQUERDA DO NÓ ATUAL
+			noAlvo = noAlvo->esquerda;
+		}
+		else{ /// O VALOR BUSCADO É MAIOR OU IGUAL A CHAVE DO NÓ ATUAL. SE FOR IGUAL A BUSCA TERMINA SENÃO DEVE-SE REALIZAR A BUSCA NA SUB-ÁRVORE DIREITA DO NÓ ATUAL
+			noAlvo = noAlvo->direita;
+		}
+	}
+
+	if( noAlvo == this->externo ){  /// NÓ NÃO ENCONTRADO
+		return false;
+	}	
+
+	removeNode( noAuxiliar );
+
+	--this->quantidadeDeElementos;
+
+	return true;
+    
 }  
 
 /**
@@ -367,9 +378,10 @@ ARN::remove( int value ){
 void 
 ARN::removeNode( Node* z ){
 
-	Node* y = this->externo;
-	Node* x = this->externo;
+	Node* y = z;
+	Node* x = z;
 
+	
 	if( z->esquerda == this->externo || z->direita == this->externo){
 		y = z;
 	}
@@ -384,8 +396,13 @@ ARN::removeNode( Node* z ){
 		x = y->direita;
 	}
 
-	x->p = y->p;
 
+	std::cout << std::endl;
+	levelTravel();
+	std::cout << z->p->chave<< std::endl;
+
+	x->p = y->p;
+	
 	if( y->p == this->externo ){
 		this->raiz = x;
 	}
@@ -394,11 +411,16 @@ ARN::removeNode( Node* z ){
 	}
 	else{
 		y->p->direita = x;
-	}
 
+	}
 	if( y != z ){
 		z->chave = y->chave;
 	}
+
+	if( y->cor == NEGRO )
+	{
+		fixUpOfColorsRemove(x);
+	}	
 
 }
 
