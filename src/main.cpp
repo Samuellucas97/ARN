@@ -2,16 +2,15 @@
  * @file	main.cpp
  * @brief	Contém a função main com a manipulação de arquivos
  * @author 	Samuel Lucas de Moura Ferino
- * @author 	Emanoel Dantas Pereira
- * @author	Madson Rodrigues Liborio
+ * @version	0.0.9
  */
 #include "ARN.h"
 
 #include <string>
+
 #include <fstream>
 
 #include <iostream>
-
 
 /*! @fn int main(int argc, char * argv[])
  *	@brief	Função main

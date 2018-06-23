@@ -1,6 +1,6 @@
 /**
  * @file		ARN.h 
- * @brief     	Contém a classe ARN que representa uma árvore rubro-negra
+ * @brief     	Contém a classe ARN que representa uma árvore rubro-negra - A chave é int
  * @author 		Samuel Lucas de Moura Ferino
  * @author		Madson Rodrigues Liborio
  * @since		12.06.2018
