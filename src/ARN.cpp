@@ -353,7 +353,11 @@ ARN::remove( int value ){
 	 */		
     Node* noAuxiliar = noAlvo;
     
-	while( noAlvo->chave != value  && noAlvo != this->externo){  /// BUSCANDO O NÓ
+	while( noAlvo->chave != value){  /// BUSCANDO O NÓ
+
+		if(  noAlvo != this->externo){ /// NÓ NÃO ENCONTRADO
+			return false;
+		}
 
 		if( value < noAlvo->chave ){ /// O VALOR BUSCADO É MENOR QUE A CHAVE DO NÓ ATUAL POR ISSO DEVE-SE REALIZAR A BUSCA NA SUB-ÁRVORE ESQUERDA DO NÓ ATUAL
 			noAlvo = noAlvo->esquerda;
@@ -363,9 +367,7 @@ ARN::remove( int value ){
 		}
 	}
 
-	if( noAlvo == this->externo ){  /// NÓ NÃO ENCONTRADO
-		return false;
-	}	
+cout << "chave" << noAuxiliar->chave << endl;
 
 	removeNode( noAuxiliar );
 
@@ -733,11 +735,13 @@ ARN::fixUpOfColorsRemove(Node* n){
 Node* 
 ARN::sucessor(Node* x)
 {
-    
+
     if(x->direita != this->externo){ /// O NÓ x TEM FILHO À DIREITA
       x = mimimunOfAnyNode( x->direita );
     }
     
+    cout << "c"  << x->chave << endl;
+
     /*!	\var	Node* copyFather 
 				\brief	 Copia do nó pai do nó x	 
 		 */
@@ -747,6 +751,6 @@ ARN::sucessor(Node* x)
        x = copyFather;
        copyFather = copyFather->p;
      }
-     
+
      return copyFather;
 }
