@@ -31,7 +31,7 @@ int main(){
 	tree.levelTravel();
 	
 	
-	tree.remove(16);
+	tree.remove(2);
 	tree.travellingRecursively();
 	tree.levelTravel();
 

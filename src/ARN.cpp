@@ -322,9 +322,9 @@ ARN::deleta( int value){
 
 		
 		}
-  	//   	if(flag == true){
-	//		fixUpOfColorsRemove(nodeAlvo);  	   	
-	  // 	}
+  	  	if(flag == true){
+			fixUpOfColorsRemove(nodeAlvo);  	   	
+	   	}
 
 
   	   	--(this->quantidadeDeElementos);   /// DECREMENTANDO NA QUANTIDADE TOTAL DE NÓS DA ÁRVORE	
@@ -348,11 +348,6 @@ ARN::remove( int value ){
 	 */		
     Node* noAlvo = this->raiz;
     
-    /*!	\var Node* noAuxiliar
-	 		\brief Guardará o nó que a partir do qual haverá o recolorimento. Por questões de estética, será inicializado com nodeAlvo
-	 */		
-    Node* noAuxiliar = noAlvo;
-    
 	while( noAlvo->chave != value){  /// BUSCANDO O NÓ
 
 		if(  noAlvo == this->externo){ /// NÓ NÃO ENCONTRADO
@@ -367,9 +362,9 @@ ARN::remove( int value ){
 		}
 	}
 
-cout << "chave" << noAuxiliar->chave << endl;
+cout << "(370) a chave do noAlvo é " << noAlvo->chave << endl;
 
-	removeNode( noAuxiliar );
+	removeNode( noAlvo );
 
 	--this->quantidadeDeElementos;
 
@@ -384,6 +379,7 @@ cout << "chave" << noAuxiliar->chave << endl;
  */ 
 void 
 ARN::removeNode( Node* noQueSeraRemovido ){
+	cout << "(LINHA 387)  a chave do noQueSeraRemovido é " << noQueSeraRemovido->chave << endl;
 
 	Node* y = noQueSeraRemovido;
 	Node* x = noQueSeraRemovido;
@@ -396,7 +392,7 @@ ARN::removeNode( Node* noQueSeraRemovido ){
 		y = sucessor(noQueSeraRemovido);
 	}
 
-	cout << "a chave do y é " << y->chave << endl;
+	cout << "(LINHA 399) a chave do y é " << y->chave << " e a chave do noQueSeraRemovido é" << noQueSeraRemovido->chave << endl;
 
 	if( y->esquerda != this->externo ){
 		x = y->esquerda;
@@ -420,8 +416,7 @@ ARN::removeNode( Node* noQueSeraRemovido ){
 		y->p->direita = x;
 
 	}
-		levelTravel();
-	std::cout << "sucessor(this->raiz)->chave"<< std::endl;
+
 	if( y != noQueSeraRemovido ){
 		noQueSeraRemovido->chave = y->chave;
 	}
@@ -739,15 +734,13 @@ ARN::sucessor(Node* x)
     if(x->direita != this->externo){ /// O NÓ x TEM FILHO À DIREITA
       x = mimimunOfAnyNode( x->direita );
     }
-    
-    cout << "c"  << x->chave << endl;
 
     /*!	\var	Node* copyFather 
 				\brief	 Copia do nó pai do nó x	 
 		 */
     Node* copyFather = x->p; 
      
-     while(copyFather != this->externo && copyFather->direita == x ){  /// SUBINDO PELA ÁRVORE
+     while(copyFather != this->externo && x == copyFather->direita ){  /// SUBINDO PELA ÁRVORE
        x = copyFather;
        copyFather = copyFather->p;
      }
