@@ -6,7 +6,6 @@
  * @version		0.0.6
 */
 
-
 /*!	\include ARN.h	
 		\brief	Contém a classe ARN que representa um nó de uma árvore rubro-negra
  */
@@ -39,7 +38,7 @@ ARN::~ARN(){
 
 	if(quantidadeDeElementos > 0){
 		destroyTheTree(this->raiz);
-		cout << endl << "Árvore sendo destruída... (LINHA 39)" << endl;
+		//cout << endl << "Árvore sendo destruída... (LINHA 39)" << endl;
 	}
 
 
@@ -111,7 +110,7 @@ ARN::levelTravel(){
 		
 		fila.push( x );			
 
-		while( !fila.empty() ){
+		while( !fila.empty() ){ /// ENQUANTO A FILA NÃO ESTIVER VAZIA REPETE-SE
 
 			x = fila.front();
 			fila.pop();
@@ -135,7 +134,7 @@ ARN::levelTravel(){
 			
 		}
 
-	}			
+	}	
 
 }
 
@@ -175,7 +174,6 @@ ARN::search(int key){
 	return false;
 
 }  
-
 
 /**
  * @brief   Cria um novo nó com o conteúdo entrado, identifica o local 
@@ -265,77 +263,6 @@ ARN::mimimunOfAnyNode(Node * x){
  
 }
 
-
-bool
-ARN::deleta( int value){
-
-    if( this->quantidadeDeElementos > 0){
-			 	    	
-        /*!	\var	Node* nodeAlvo 
-	      		\brief 	Guarda a posição do nó na ABB correspondente à chave, se existir
-	     */	
-	    Node* nodeAlvo = this->raiz;
-	    
-	    /*!	\var	bool flag 
-	      		\brief 	Variavel auxiliar que guarda true caso o No alvo seja RUBRO e guarda false caso contrario
-	     */	
-	    bool flag = true;
-  	    
-  	    /// BUSCANDO SE O NÓ EXISTE
-  	    while( nodeAlvo != this->externo &&  value !=  nodeAlvo->chave ){	
-
-  		    if( value <  nodeAlvo->chave ){ /// Value MENOR QUE CHAVE DO PONTEIRO ATUAL
-  	        	nodeAlvo = nodeAlvo->esquerda;
-  	    	}
-  	    	
-  	      	else{ /// Value MAIOR QUE CHAVE DO PONTEIRO ATUAL
-  	        	nodeAlvo =  nodeAlvo->direita; 
-  	      	}
-  	    } 
-  	    
-  	    if( nodeAlvo == this->externo ){ 	/// O NÓ CORRESPONDENTE A CHAVE NÃO FOI ENCONTRADO NA ÁRVORE
-  	    	return false;
-  		}
-  	    
-  	    if(nodeAlvo->cor == RUBRO){  /// CASO EM QUE O NÓ REMOVIDO (nodeAlvo) É RUBRO. PORTANTO, A CONTAGEM DE NÓS NEGROS NÃO É ALTERADA  
-  	    	flag = false;
-  	    }
-
-		if( nodeAlvo-> esquerda == this->externo){  /// O NÓ nodeAlvo A SER REMOVIDO **NÃO TEM** FILHO À ESQUERDA
-			transplant(nodeAlvo, nodeAlvo->direita );
-		}
-		else if( nodeAlvo->direita == this->externo){  /// O NÓ nodeAlvo A SER REMOVIDO **NÃO TEM** FILHO À DIREITA
-			transplant(nodeAlvo, nodeAlvo->esquerda );
-		}
-		else{  /// O NÓ nodeAlvo A SER REMOVIDO **TEM** FILHO À ESQUERDA E À DIREITA
-
-			Node* menorMaiorNoh = mimimunOfAnyNode(nodeAlvo->direita ); /// PEGO O MENOR DOS FILHOS À DIREITA DE nodeAlvo PARA GARANTIR QUE SEJA MAIOR QUE TODOS OS DESCENTES À ESQUERDA DE nodeAlvo
-
-			if(menorMaiorNoh->p != nodeAlvo){
-				transplant(menorMaiorNoh, menorMaiorNoh->direita );
-				menorMaiorNoh->direita = nodeAlvo->direita ;
-				menorMaiorNoh-> p-> direita = menorMaiorNoh ;
-			}
-			transplant( nodeAlvo, menorMaiorNoh );
-			menorMaiorNoh->esquerda = nodeAlvo->esquerda ;
-			menorMaiorNoh->esquerda = menorMaiorNoh;
-
-		
-		}
-  	  	if(flag == true){
-			fixUpOfColorsRemove(nodeAlvo);  	   	
-	   	}
-
-
-  	   	--(this->quantidadeDeElementos);   /// DECREMENTANDO NA QUANTIDADE TOTAL DE NÓS DA ÁRVORE	
-  	   	return true;
-    }
-   	
-   	/// TENTATIVA DE REMOÇÂO EM ÁRVORE VAZIA
-    return false;
-}
-
-
 /**
  * @brief   Remove da árvore o nó com a respectiva chave, se existir
  * @param   value 	Valor da chave a ser removida
@@ -362,8 +289,6 @@ ARN::remove( int value ){
 		}
 	}
 
-cout << "(LINHA 370) a chave do noAlvo é " << noAlvo->chave << endl;
-
 	removeNode( noAlvo );
 
 	--this->quantidadeDeElementos;
@@ -379,7 +304,6 @@ cout << "(LINHA 370) a chave do noAlvo é " << noAlvo->chave << endl;
  */ 
 void 
 ARN::removeNode( Node* noQueSeraRemovido ){
-	cout << "(LINHA 382)  a chave do noQueSeraRemovido é " << noQueSeraRemovido->chave << endl;
 
 	Node* y = noQueSeraRemovido;
 	Node* x = noQueSeraRemovido;
@@ -390,11 +314,7 @@ ARN::removeNode( Node* noQueSeraRemovido ){
 	}
 	else{
 		y = sucessor(noQueSeraRemovido);
-	cout << "(LINHA 393) a chave do y é " << y->chave << " e a chave do noQueSeraRemovido é" << noQueSeraRemovido->chave << endl;
-
 	}
-
-	cout << "(LINHA 397) a chave do y é " << y->chave << " e a chave do noQueSeraRemovido é" << noQueSeraRemovido->chave << endl;
 
 	if( y->esquerda != this->externo ){
 		x = y->esquerda;
@@ -403,11 +323,7 @@ ARN::removeNode( Node* noQueSeraRemovido ){
 		x = y->direita;
 	}
 
-	cout << "(LINHA 406) direita de y eh"<< y->direita->chave<< "(LINHA 406) direita de x eh"<< x->direita->chave<< endl;
-	//if( x ){
-		x->p = y->p;
-	//}
-	cout << "(LINHA 410) direita de x eh"<< x->direita->chave<< endl;
+	x->p = y->p;
 
 	if( y->p == this->externo ){
 		this->raiz = x;
@@ -428,29 +344,6 @@ ARN::removeNode( Node* noQueSeraRemovido ){
 	{
 		fixUpOfColorsRemove(x);
 	}	
-
-}
-
-/**
- * @brief   Substitui uma subárvore como um filho de seu pai por outra subárvore
- * @param   u 	Nó que será substituído pelo nó v
- * @param   v 	Nó que substituirá o nó u
- */
-void 
-ARN::transplant(Node * u, Node * v){
-
-	if( u->p == this->externo ){ /// CASO EM QUE SERÁ REMOVIDA A RAIZ, POR ISSO, v SERÁ A NOVA RAIZ 
-	  this->raiz = v;
-	}
-	else if( u == u->p->esquerda ){ /// u É O FILHO À ESQUERDA
-	  u->p->esquerda = v;
-	}
-	else{ /// u É O FILHO À DIREITA
-	  u->p->direita =v;
-	}
-	if(v != this->externo){ /// JÁ QUE FOI MOVIDO UM FILHO NÃO NULO, FALTA DIZER QUEM É O PAI DELE 
-	  v->p = u->p;
-	}
 
 }
 
@@ -592,6 +485,10 @@ ARN::rightRotate(Node* y){
 
 }
 
+/**
+ * @brief	Conserta as cores do nós depois da inserção
+ * @param	z 	Nó a partir do qual será feito o recolorimento
+ */
 void 
 ARN::fixUpOfColorsInsert(Node* z){
 
@@ -619,8 +516,6 @@ ARN::fixUpOfColorsInsert(Node* z){
 				
 				z->p->cor = NEGRO;				/// 			CASO 3: O TIO y DE z É NEGRO E z É UM FILHO DA ESQUERDA	
 				z->p->p->cor = RUBRO;
-				//tree.levelTravel();
-
 				rightRotate(z->p->p);			///				TÉRMINA 3° CASO
 
 			}			
@@ -657,6 +552,10 @@ ARN::fixUpOfColorsInsert(Node* z){
 
 }
 
+/**
+ * @brief	Conserta as cores do nós depois da remoção
+ * @param	n 	Nó a partir do qual será feito o recolorimento
+ */
 void 
 ARN::fixUpOfColorsRemove(Node* n){
 

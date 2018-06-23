@@ -98,12 +98,6 @@ class ARN{
 		 * @param   value 	Valor da chave a ser removida
 		 */ 
 		bool remove( int value);
-		
-		/**
-		 * @brief   Remove da árvore o nó com a respectiva chave, se existir
-		 * @param   value 	Valor da chave a ser removida
-		 */
-		bool deleta(int value);
 
 	/**    /\/\/\/\/\/\      MÉTODOS PRIVADOS    /\/\/\/\/\/\      */
 	  
@@ -129,13 +123,6 @@ class ARN{
 	   	 */
 		Node * mimimunOfAnyNode(Node* x);
   
-    	/**
-	   	 * @brief   Substitui uma subárvore como um filho de seu pai por outra subárvore
-    	 * @param   u 	Nó que será substituído pelo nó v
-     	 * @param   v 	Nó que substituirá o nó u
-     	 */
-		void transplant(Node * u, Node * v);
-  	
     	/**
      	 * @brief   Destrói os nós da árvore
      	 * @param   x   Nó a terá os subnós destruídos

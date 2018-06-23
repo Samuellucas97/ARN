@@ -1,6 +1,6 @@
 /**
  * @file 		Node.h 
- * @brief		Contém a struct Node
+ * @brief		Contém a struct Node que representa um nó da árvore rubro-negra
  * @author 		Samuel Lucas de Moura Ferino
  * @since		12.06.2018
  * @version		0.0.2

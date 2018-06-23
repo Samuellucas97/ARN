@@ -1,6 +1,6 @@
 /**
  * @file 		Node.cpp 
- * @brief		Contém a implementação dos métodos da struct Node
+ * @brief		Contém a implementação dos métodos da struct Node que representa um nó de uma árvore rubro-negra
  * @author 		Samuel Lucas de Moura Ferino
  * @since		14.06.2018
  * @version		0.0.2
