@@ -1,4 +1,5 @@
 # Árvore Rubro-Negra
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b64d93876cd4429f8c27b0b38483bb77)](https://www.codacy.com/app/Samuellucas97/ARN?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Samuellucas97/ARN&amp;utm_campaign=Badge_Grade)
 
 Neste repositório é implementada a estrutura de dados __Árvore Rubro-Negra__ referente à atividade da 3ª unidade da disciplina de ***Estrutura de Dados II*** do bacharelado em Tecnologia da Informação (__UFRN__). 
 
