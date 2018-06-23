@@ -362,7 +362,7 @@ ARN::remove( int value ){
 		}
 	}
 
-cout << "(370) a chave do noAlvo é " << noAlvo->chave << endl;
+cout << "(LINHA 370) a chave do noAlvo é " << noAlvo->chave << endl;
 
 	removeNode( noAlvo );
 
@@ -379,7 +379,7 @@ cout << "(370) a chave do noAlvo é " << noAlvo->chave << endl;
  */ 
 void 
 ARN::removeNode( Node* noQueSeraRemovido ){
-	cout << "(LINHA 387)  a chave do noQueSeraRemovido é " << noQueSeraRemovido->chave << endl;
+	cout << "(LINHA 382)  a chave do noQueSeraRemovido é " << noQueSeraRemovido->chave << endl;
 
 	Node* y = noQueSeraRemovido;
 	Node* x = noQueSeraRemovido;
@@ -390,9 +390,11 @@ ARN::removeNode( Node* noQueSeraRemovido ){
 	}
 	else{
 		y = sucessor(noQueSeraRemovido);
+	cout << "(LINHA 393) a chave do y é " << y->chave << " e a chave do noQueSeraRemovido é" << noQueSeraRemovido->chave << endl;
+
 	}
 
-	cout << "(LINHA 399) a chave do y é " << y->chave << " e a chave do noQueSeraRemovido é" << noQueSeraRemovido->chave << endl;
+	cout << "(LINHA 397) a chave do y é " << y->chave << " e a chave do noQueSeraRemovido é" << noQueSeraRemovido->chave << endl;
 
 	if( y->esquerda != this->externo ){
 		x = y->esquerda;
@@ -401,10 +403,11 @@ ARN::removeNode( Node* noQueSeraRemovido ){
 		x = y->direita;
 	}
 
-
-	if( x ){
+	cout << "(LINHA 406) direita de y eh"<< y->direita->chave<< "(LINHA 406) direita de x eh"<< x->direita->chave<< endl;
+	//if( x ){
 		x->p = y->p;
-	}
+	//}
+	cout << "(LINHA 410) direita de x eh"<< x->direita->chave<< endl;
 
 	if( y->p == this->externo ){
 		this->raiz = x;
@@ -732,7 +735,7 @@ ARN::sucessor(Node* x)
 {
 
     if(x->direita != this->externo){ /// O NÓ x TEM FILHO À DIREITA
-      x = mimimunOfAnyNode( x->direita );
+      return mimimunOfAnyNode( x->direita );
     }
 
     /*!	\var	Node* copyFather 
