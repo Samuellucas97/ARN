@@ -28,11 +28,12 @@ int main(){
 	tree.insert(15);
 	tree.insert(17);
 	tree.insert(2);
-	
-	
-	//tree.remove(16);
 	tree.levelTravel();
+	
+	
+	tree.remove(16);
 	tree.travellingRecursively();
+	tree.levelTravel();
 
 	if( tree.search(2) == true ){
 		std::cout << "2 estah na arvore" << std::endl;

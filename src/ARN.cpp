@@ -24,7 +24,10 @@ using std::queue;
  */	
 ARN::ARN(){
 	this->externo = new Node();
-	this->externo->cor = NEGRO;			
+	this->externo->cor = NEGRO;
+	this->externo->p = this->externo;	
+	this->externo->esquerda = this->externo;	
+	this->externo->direita = this->externo;			
 	this->raiz = this->externo;
 	this->quantidadeDeElementos = 0;
 }
@@ -185,7 +188,7 @@ bool
 ARN::insert(int value){
 
 	if( search(value) == false ){
-		insertNode( new Node(value) );
+		insertNode( new Node(value, this->externo, this->externo, this->externo) );
 		++this->quantidadeDeElementos;
 		return true;
 	}	
@@ -250,9 +253,12 @@ ARN::insertNode(Node* z){
  */
 Node* 
 ARN::mimimunOfAnyNode(Node * x){
+
   
   while(x->esquerda != this->externo){ /// ENQUANTO TIVER DESCENTE À ESQUERDA
+
     x = x->esquerda;
+
   }
   
   return x;
@@ -310,18 +316,16 @@ ARN::deleta( int value){
 				menorMaiorNoh->direita = nodeAlvo->direita ;
 				menorMaiorNoh-> p-> direita = menorMaiorNoh ;
 			}
-
 			transplant( nodeAlvo, menorMaiorNoh );
 			menorMaiorNoh->esquerda = nodeAlvo->esquerda ;
 			menorMaiorNoh->esquerda = menorMaiorNoh;
 
-		cout <<  "LINHA 319 - " << menorMaiorNoh->chave << endl;	
-		exit(0);
 		
 		}
-  	   	if(flag == true){
-			fixUpOfColorsRemove(nodeAlvo);  	   	
-	   	}
+  	//   	if(flag == true){
+	//		fixUpOfColorsRemove(nodeAlvo);  	   	
+	  // 	}
+
 
   	   	--(this->quantidadeDeElementos);   /// DECREMENTANDO NA QUANTIDADE TOTAL DE NÓS DA ÁRVORE	
   	   	return true;
@@ -330,6 +334,7 @@ ARN::deleta( int value){
    	/// TENTATIVA DE REMOÇÂO EM ÁRVORE VAZIA
     return false;
 }
+
 
 /**
  * @brief   Remove da árvore o nó com a respectiva chave, se existir
@@ -376,18 +381,20 @@ ARN::remove( int value ){
  * @return  \code{.cpp}true\endcode caso tenha sido removido, \code{.cpp}false\endcode caso contrário
  */ 
 void 
-ARN::removeNode( Node* z ){
+ARN::removeNode( Node* noQueSeraRemovido ){
 
-	Node* y = z;
-	Node* x = z;
+	Node* y = noQueSeraRemovido;
+	Node* x = noQueSeraRemovido;
 
 	
-	if( z->esquerda == this->externo || z->direita == this->externo){
-		y = z;
+	if( noQueSeraRemovido->esquerda == this->externo || noQueSeraRemovido->direita == this->externo){
+		y = noQueSeraRemovido;
 	}
 	else{
-		y = sucessor(z);
+		y = sucessor(noQueSeraRemovido);
 	}
+
+	cout << "a chave do y é " << y->chave << endl;
 
 	if( y->esquerda != this->externo ){
 		x = y->esquerda;
@@ -397,12 +404,10 @@ ARN::removeNode( Node* z ){
 	}
 
 
-	std::cout << std::endl;
-	levelTravel();
-	std::cout << z->p->chave<< std::endl;
+	if( x ){
+		x->p = y->p;
+	}
 
-	x->p = y->p;
-	
 	if( y->p == this->externo ){
 		this->raiz = x;
 	}
@@ -413,8 +418,10 @@ ARN::removeNode( Node* z ){
 		y->p->direita = x;
 
 	}
-	if( y != z ){
-		z->chave = y->chave;
+		levelTravel();
+	std::cout << "sucessor(this->raiz)->chave"<< std::endl;
+	if( y != noQueSeraRemovido ){
+		noQueSeraRemovido->chave = y->chave;
 	}
 
 	if( y->cor == NEGRO )
@@ -736,7 +743,7 @@ ARN::sucessor(Node* x)
 		 */
     Node* copyFather = x->p; 
      
-     while(copyFather != nullptr && copyFather->direita == x ){  /// SUBINDO PELA ÁRVORE
+     while(copyFather != this->externo && copyFather->direita == x ){  /// SUBINDO PELA ÁRVORE
        x = copyFather;
        copyFather = copyFather->p;
      }
