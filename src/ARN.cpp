@@ -355,7 +355,7 @@ ARN::remove( int value ){
     
 	while( noAlvo->chave != value){  /// BUSCANDO O NÓ
 
-		if(  noAlvo != this->externo){ /// NÓ NÃO ENCONTRADO
+		if(  noAlvo == this->externo){ /// NÓ NÃO ENCONTRADO
 			return false;
 		}
 
