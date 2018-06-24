@@ -61,6 +61,8 @@ denominado ***arn***. Em seguida, digite ```./arn``` para executar o programa.
 ###  Documentação e exclusão dos objetos e do executável
 
 Caso deseje verificar a documentação, digite na pasta doc ```doxygen main.cpp ARN.cpp ARN.h Node.cpp Node.h mainpage.dox ```. Diante disso, abra a pasta **html**, depois abra o arquivo chamado **index.html** o qual possui a documentação.  
+  
+  
 Além disso, caso deseje fazer o debugger do programa, primeiro digite no terminal ```make debug```, depois digite ```gdb ./arn```.  Ou, se quiser apagar os objetos e o executável, digite ```make clean```.
 
 <p align="right">
