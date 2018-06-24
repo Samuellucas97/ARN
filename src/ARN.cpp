@@ -345,6 +345,8 @@ ARN::removeNode( Node* noQueSeraRemovido ){
 		fixUpOfColorsRemove(x);
 	}	
 
+	delete y;
+
 }
 
 /**
