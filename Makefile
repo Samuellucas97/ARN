@@ -63,7 +63,6 @@ clean:
 	@echo "Deleting directories and Doxigen"
 	@$(RM) -r $(BUILD_PATH)
 	@$(RM) -r $(BIN_PATH)
-	@$(RM) -r $(DOC_PATH)
 
 .PHONY: doxy
 doxy: 	
