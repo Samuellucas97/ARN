@@ -69,6 +69,8 @@ Além disso, caso deseje fazer o debugger do programa, primeiro digite no termin
 <img src="https://www.star.bnl.gov/public/comp/sofi/doxygen/doxygen_logo.gif" width="14%"  />
 </p>
 
-## Autores :smile: 
+## Autor  
 
-Samuel Lucas de Moura Ferino ( :e-mail:  <samuel1797@gmail.com> )
+| Name: | Github: | email: |  
+| ---------- | ------------- | ------------- |
+|`Samuel Lucas de Moura Ferino` 	| https://github.com/Samuellucas97 |_samuellucas97@ufrn.edu.br_  
